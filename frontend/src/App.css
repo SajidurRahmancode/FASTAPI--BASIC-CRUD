@@ -1,0 +1,117 @@
+.App {
+  min-height: 100vh;
+}
+
+.navbar {
+  background-color: #343a40;
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-brand:hover {
+  color: #f8f9fa;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: #adb5bd;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.nav-link:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.page-title {
+  margin-bottom: 24px;
+  color: #343a40;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.user-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.user-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.user-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #343a40;
+  margin: 0;
+}
+
+.user-email {
+  color: #6c757d;
+  margin: 4px 0;
+}
+
+.user-id {
+  font-size: 0.875rem;
+  color: #adb5bd;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .nav-links {
+    justify-content: center;
+  }
+  
+  .user-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .actions {
+    align-self: stretch;
+    justify-content: flex-end;
+  }
+}
