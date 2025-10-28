@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Save, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
-import api, { UserFormData, User } from '../services/api';
+import api, { UserFormData} from '../services/api';
 
 const UserForm: React.FC = () => {
   const navigate = useNavigate();

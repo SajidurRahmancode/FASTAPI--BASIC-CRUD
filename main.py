@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import mysql.connector
 from mysql.connector import Error
+import uvicorn
 
 app = FastAPI()
 
@@ -138,3 +139,6 @@ def delete_user(user_id: int):
     except Error as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+if __name__=="__main__":
+    uvicorn.run(app, host="0.0.0.0",port=8000)
