@@ -25,10 +25,11 @@ const UserForm: React.FC = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       toast.success('User created successfully!');
-      navigate('/');
+      navigate('/users');
     },
     onError: (error: any) => {
-      toast.error(`Failed to create user: ${error.message}`);
+      const errorMessage = error.response?.data?.detail || 'Failed to create user';
+      toast.error(errorMessage);
     },
   });
 
@@ -38,19 +39,23 @@ const UserForm: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       queryClient.invalidateQueries({ queryKey: ['user', id] });
       toast.success('User updated successfully!');
-      navigate('/');
+      navigate('/users');
     },
     onError: (error: any) => {
-      toast.error(`Failed to update user: ${error.message}`);
+      const errorMessage = error.response?.data?.detail || 'Failed to update user';
+      toast.error(errorMessage);
     },
   });
 
   useEffect(() => {
     if (user) {
       setValue('email', user.email || '');
-      setValue('password', user.password || '');
+      // Don't set password for editing - let user enter new password
+      if (!isEditing) {
+        setValue('password', '');
+      }
     }
-  }, [user, setValue]);
+  }, [user, setValue, isEditing]);
 
   const onSubmit = (data: UserFormData) => {
     if (isEditing) {
@@ -66,7 +71,7 @@ const UserForm: React.FC = () => {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/users')}
           className="btn btn-secondary"
           style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
         >
@@ -97,7 +102,7 @@ const UserForm: React.FC = () => {
               })}
             />
             {errors.email && (
-              <div className="error" style={{ marginTop: '4px', padding: '4px 8px' }}>
+              <div className="error-message" style={{ marginTop: '4px' }}>
                 {errors.email.message}
               </div>
             )}
@@ -105,19 +110,25 @@ const UserForm: React.FC = () => {
 
           <div className="form-group">
             <label htmlFor="password" className="form-label">
-              Password *
+              {isEditing ? 'New Password *' : 'Password *'}
             </label>
             <input
               type="password"
               id="password"
               className="form-input"
+              placeholder={isEditing ? 'Enter new password' : 'Enter password'}
               {...register('password', { 
                 required: 'Password is required',
                 minLength: { value: 6, message: 'Password must be at least 6 characters' }
               })}
             />
+            {isEditing && (
+              <div style={{ fontSize: '12px', color: '#6c757d', marginTop: '4px' }}>
+                Leave empty to keep current password (for demonstration - in production, handle this properly)
+              </div>
+            )}
             {errors.password && (
-              <div className="error" style={{ marginTop: '4px', padding: '4px 8px' }}>
+              <div className="error-message" style={{ marginTop: '4px' }}>
                 {errors.password.message}
               </div>
             )}
@@ -135,7 +146,7 @@ const UserForm: React.FC = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/users')}
               className="btn btn-secondary"
             >
               Cancel

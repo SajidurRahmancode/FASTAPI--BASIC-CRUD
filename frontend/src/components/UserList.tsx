@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { Trash2, Edit, User as UserIcon, Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
-import api, { User } from '../services/api';
+import api, { UserResponse } from '../services/api';
 
 const UserList: React.FC = () => {
   const queryClient = useQueryClient();
@@ -67,13 +67,13 @@ const UserList: React.FC = () => {
         </div>
       ) : (
         <div className="user-grid">
-          {users.map((user: User) => (
+          {users.map((user: UserResponse) => (
             <div key={user.user_id} className="user-card">
               <div className="user-header">
                 <div>
                   <h3 className="user-email">{user.email || 'No Email'}</h3>
                   <p className="user-password" style={{ fontSize: '12px', color: '#666' }}>
-                    Password: {'*'.repeat(user.password.length)}
+                    Password: ****** (hidden for security)
                   </p>
                   <p className="user-id">ID: {user.user_id}</p>
                 </div>
