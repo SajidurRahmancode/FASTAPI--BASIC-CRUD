@@ -1,0 +1,9 @@
+{
+  "name": "fastapi-basic-crud-root",
+  "private": true,
+  "scripts": {
+    "start": "npm --prefix frontend start",
+    "start:frontend": "npm --prefix frontend start",
+    "install:frontend": "npm --prefix frontend install"
+  }
+}

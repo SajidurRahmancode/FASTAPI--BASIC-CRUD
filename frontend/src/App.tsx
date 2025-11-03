@@ -8,6 +8,7 @@ import UserList from './components/UserList';
 import UserForm from './components/UserForm';
 import ProtectedRoute from './components/ProtectedRoute';
 import api from './services/api';
+import PredictForm from './components/PredictForm';
 import './App.css';
 
 function App() {
@@ -38,6 +39,9 @@ function App() {
                 <Link to="/add-user" className="nav-link">
                   <UserPlus size={16} />
                   Add User
+                </Link>
+                <Link to="/predict" className="nav-link">
+                  AI Predict
                 </Link>
                 {/* User info and logout */}
                 <div className="nav-user">
@@ -89,6 +93,14 @@ function App() {
                   <UserForm />
                 </ProtectedRoute>
               } 
+            />
+            <Route 
+              path="/predict"
+              element={
+                <ProtectedRoute>
+                  <PredictForm />
+                </ProtectedRoute>
+              }
             />
             <Route 
               path="/edit-user/:id" 

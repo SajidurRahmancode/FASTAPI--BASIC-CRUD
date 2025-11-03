@@ -12,6 +12,35 @@ from typing import Optional, List
 
 app = FastAPI()
 
+# Include AI router if present
+try:
+    from app import ai_router, init_model
+    app.include_router(ai_router)
+    # call init_model at startup to load any available model
+    @app.on_event("startup")
+    def _init_ai_model():
+        try:
+            init_model()
+        except Exception as e:
+            print(f"AI model init failed: {e}")
+except Exception as e:
+    # Not fatal if app.py/ai isn't present or has import errors, but surface the
+    # exception so it's visible in the server logs (previously it was swallowed).
+    import traceback
+    print("Failed to include ai_router from app.py:", e)
+    traceback.print_exc()
+else:
+    # Print registered routes (helpful for debugging 404s)
+    try:
+        print("Registered routes:")
+        for r in app.routes:
+            # route.path exists for Starlette routes
+            path = getattr(r, 'path', None)
+            if path is not None:
+                print(" ", path)
+    except Exception:
+        pass
+
 # Authentication configuration
 SECRET_KEY = "My-secret-key-here-in-development"  
 ALGORITHM = "HS256"
@@ -23,7 +52,10 @@ security = HTTPBearer()
 # React CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React server
+    # During development allow the React dev server origins. You can replace
+    # this with a more restrictive list for production. Using "*" is fine
+    # for local development but not recommended for production.
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "http://192.168.68.78:3000", "*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

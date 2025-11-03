@@ -115,6 +115,12 @@ const api = {
     await apiClient.delete(`/users/${user_id}`);
   },
 
+  // AI prediction endpoint
+  predict: async (payload: any): Promise<any> => {
+    const response = await apiClient.post('/predict', payload);
+    return response.data;
+  },
+
   // Utility functions
   isAuthenticated: (): boolean => {
     return !!localStorage.getItem('token');
